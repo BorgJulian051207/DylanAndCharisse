@@ -1,0 +1,6 @@
+{
+  "isphc": { "name": "Isabella & Phillip", "seats": 2 },
+  "jdoe": { "name": "John Doe", "seats": 1 },
+  "smith2": { "name": "The Smith Family", "seats": 4 },
+  "mrscamilleri": { "name": "Mr & Mrs Camilleri", "seats": 2 }
+}
