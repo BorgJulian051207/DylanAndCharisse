@@ -9,20 +9,15 @@ const envelopeFlash = document.getElementById("envelope-flash");
 function openEnvelope() {
   if (!envelope || envelope.classList.contains("opened")) return;
 
-  // Stage 1: flap opens, letter peeks out, hint fades
   envelope.classList.add("opened");
   if (envelopeHint) envelopeHint.classList.add("hidden");
   if (envelopeEyebrow) envelopeEyebrow.classList.add("hidden");
 
-  // Stage 2: after the flap + letter finish, zoom the whole envelope
-  // forward while a soft white flash sweeps in behind it
   setTimeout(() => {
     if (envelopeWrap) envelopeWrap.classList.add("zoom");
     if (envelopeFlash) envelopeFlash.classList.add("show");
   }, 1150);
 
-  // Stage 3: once the zoom/flash finishes, remove the intro and
-  // unlock the page, then fade the flash back out
   setTimeout(() => {
     if (envelopeIntro) envelopeIntro.classList.add("hidden");
     document.body.classList.remove("locked");
@@ -32,8 +27,6 @@ function openEnvelope() {
   }, 1750);
 }
 
-// Listen on the whole overlay (not just the envelope graphic) so taps
-// anywhere near it — including the hint text — register reliably.
 if (envelopeIntro) {
   envelopeIntro.addEventListener("click", openEnvelope);
   envelopeIntro.addEventListener("touchend", openEnvelope, { passive: true });
@@ -47,14 +40,14 @@ if (navToggle && navInner) {
     const open = navInner.classList.toggle("nav-open");
     navToggle.setAttribute("aria-expanded", open);
   });
-  // Close the menu when tapping outside it
+
   document.addEventListener("click", (e) => {
     if (!navInner.contains(e.target)) {
       navInner.classList.remove("nav-open");
       navToggle.setAttribute("aria-expanded", "false");
     }
   });
-  // Close the menu after tapping a link
+
   navInner.querySelectorAll(".nav-links a").forEach((link) => {
     link.addEventListener("click", () => {
       navInner.classList.remove("nav-open");
@@ -64,7 +57,6 @@ if (navToggle && navInner) {
 }
 
 // ===== PLAY BUTTON: opens the save-the-date video with sound,
-// zooming in smoothly, while the silent background loop keeps playing =====
 const playBtn = document.getElementById("play-video");
 const videoLightbox = document.getElementById("video-lightbox");
 const videoLightboxPlayer = document.getElementById("video-lightbox-player");
@@ -76,8 +68,6 @@ function openVideoLightbox() {
   videoLightboxPlayer.muted = false;
   videoLightboxPlayer.currentTime = 0;
   videoLightboxPlayer.play().catch(() => {
-    // Autoplay-with-sound can still be blocked by some browsers even
-    // after a click; the visible controls let the person hit play themselves.
   });
 }
 
@@ -90,7 +80,6 @@ function closeVideoLightbox() {
 if (playBtn) playBtn.addEventListener("click", openVideoLightbox);
 if (videoLightboxClose) videoLightboxClose.addEventListener("click", closeVideoLightbox);
 if (videoLightbox) {
-  // Click on the dark backdrop (not the video itself) closes it
   videoLightbox.addEventListener("click", (e) => {
     if (e.target === videoLightbox) closeVideoLightbox();
   });
@@ -100,8 +89,6 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ===== RSVP: "HOW MANY GUESTS" COUNTER =====
-// This counter just records a headcount (for catering) — it's independent
-// of the guest name fields below, which guests add manually.
 const guestMinus = document.getElementById("guest-minus");
 const guestPlus = document.getElementById("guest-plus");
 const guestCountEl = document.getElementById("guest-count");
